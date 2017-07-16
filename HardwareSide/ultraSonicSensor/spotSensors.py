@@ -2,6 +2,7 @@
 import mraa
 import time
 import os
+from datetime import datetime
 
 # Set the GPIO pins
 TRIG = mraa.Gpio(11)
@@ -56,62 +57,91 @@ def poll(tP, eP):
 
 
 def main():
-    currTime = time.time()
-    pastTime = time.time()
-    countOne = 0
-    countTwo = 0
-    carOneTime = 0
-    carTwoTime = 0
+    curr_Time = time.time()
+    past_Time = time.time()
+    count_One = 0
+    count_Two = 0
+    car_One_Time = 0
+    car_Two_Time = 0
 
     loc_1 = 'Building10-A'
     loc_2 = 'Building10-B'
-    occupiedOne = 0
-    occupiedTwo = 0
+    occupied_Sensor_One = 0
+    occupied_Sensor_Two = 0
+    occupied_Camera_One = 0
+    occupied_Camera_Two = 0
+
+    final_Occupied_One = 0
+    final_Occupied_Two = 0
+
+    frequency_Car_One = 0.0
+    frequency_Car_Two = 0.0
 
     while (1):
         timeOne = time.time()
         for i in range(0, NUM_SAMPLES):
-            countOne += poll(TRIG, ECHO)
+            count_One += poll(TRIG, ECHO)
             time.sleep(0.002)
 
         for i in range(0, NUM_SAMPLES):
-            countTwo += poll(TRIG2, ECHO2)
+            count_Two += poll(TRIG2, ECHO2)
             time.sleep(0.002)
 
-        if NUM_SAMPLES * SUCCESS_PERCENT < countOne:
+        if NUM_SAMPLES * SUCCESS_PERCENT < count_One:
             print "Object one found!"
             timeTwo = time.time()
-            carOneTime += (timeTwo + 2 - timeOne)
-            occupiedOne = 1
+            car_One_Time += (timeTwo + 1 - timeOne)
+            occupied_Sensor_One = 1
         else:
             print "Object is not there"
-            carOneTime = 0
-            occupiedOne = 0
+            car_One_Time = 0
+            occupied_Sensor_One = 0
 
-        if NUM_SAMPLES * SUCCESS_PERCENT < countTwo:
+        if NUM_SAMPLES * SUCCESS_PERCENT < count_Two:
             print "Object two found!"
             timeThree = time .time()
-            carTwoTime += (timeThree + 0.5 - timeOne)
-            occupiedTwo = 1
+            car_Two_Time += (timeThree + 1 - timeOne)
+            occupied_Sensor_Two = 1
         else:
             print "Object is not there"
-            carTwoTime = 0
-            occupiedTwo = 0
+            car_Two_Time = 0
+            occupied_Sensor_Two = 0
 
-        countOne = 0
-        countTwo = 0
+        count_One = 0
+        count_Two = 0
 
-        currTime = time.time()
-        if (currTime - pastTime >= TIME_TO_SEND):
+        with open('out.txt', 'r+') as outFile:
+            data = outFile.readlines()
+        for x in data:
+            if "Status:" in x:
+                occupied_Camera_One = x[8:9]
+                occupied_Camera_Two = x[10:11]
+
+        if occupied_Camera_One and occupied_Sensor_One:
+            final_Occupied_One = 1
+        else if occupied_Camera_One and not occupied_Sensor_One:
+            final_Occupied_One = 0
+        else if not occupied_Camera_One and not occupied_Sensor_One:
+            final_Occupied_One = 0
+
+        if occupied_Camera_Two and occupied_Sensor_Two:
+            final_Occupied_Two = 1
+        else if occupied_Camera_Two and not occupied_Sensor_Two:
+            final_Occupied_Two = 0
+        else if not occupied_Camera_Two and not occupied_Sensor_Two:
+            final_Occupied_Two = 0
+
+        curr_Time = time.time()
+        if (curr_Time - past_Time >= TIME_TO_SEND):
             s = 'curl -v -H \'Content-Type: application/json\' -H \'Accept: application/json\' -X POST -d \'{{ \"spot\" : {{ \"location\": \"{0}\", \"occupied\": {1}, \"prev_occupy_duration\": {2} }} }} \' http://spotev.hack.viasat.io:8080/spot'.format(
-                str(loc_1), str(occupiedOne), str(carOneTime))
+                str(loc_1), str(final_Occupied_One), str(car_One_Time))
             st = 'curl -v -H \'Content-Type: application/json\' -H \'Accept: application/json\' -X POST -d \'{{ \"spot\" : {{ \"location\": \"{0}\", \"occupied\": {1}, \"prev_occupy_duration\": {2} }} }} \' http://spotev.hack.viasat.io:8080/spot'.format(
-                str(loc_2), str(occupiedTwo), str(carTwoTime))
+                str(loc_2), str(final_Occupied_Two), str(car_Two_Time))
             os.system(s)
             os.system(st)
-            pastTime = currTime
+            past_Time = curr_Time
 
-        time.sleep(0.5)
+        time.sleep(1)
 
 
 # Invoke the main method
