@@ -4,5 +4,5 @@ Rails.application.routes.draw do
   get 'home/index'
   root 'home#index'
 
-  resources :spot, only: [:new, :create, :edit, :update]
+  resources :spot, only: [:create, :update]
 end
