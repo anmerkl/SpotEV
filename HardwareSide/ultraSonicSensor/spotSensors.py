@@ -79,9 +79,6 @@ def main():
     final_Occupied_One = 0
     final_Occupied_Two = 0
 
-    frequency_Car_One = 0.0
-    frequency_Car_Two = 0.0
-
     now = datetime.now()
     seconds_since_StartOfDay = (
         now - now.replace(hour=8, minute=0, second=0, microsecond=0)).total_seconds()
@@ -97,18 +94,14 @@ def main():
             time.sleep(0.002)
 
         if NUM_SAMPLES * SUCCESS_PERCENT < count_One:
-            print "Object one found!"
             timeTwo = time.time()
             occupied_Sensor_One = 1
         else:
-            print "Object is not there"
             occupied_Sensor_One = 0
 
         if NUM_SAMPLES * SUCCESS_PERCENT < count_Two:
-            print "Object two found!"
             occupied_Sensor_Two = 1
         else:
-            print "Object is not there"
             occupied_Sensor_Two = 0
 
         count_One = 0
@@ -121,24 +114,27 @@ def main():
                 occupied_Camera_One = x[8:9]
                 occupied_Camera_Two = x[10:11]
 
-        if occupied_Camera_One and occupied_Sensor_One:
+        if occupied_Camera_One or occupied_Sensor_One:
+            timeTwo - time.time()
             car_One_Time += (timeTwo + 1 - timeOne)
             final_Occupied_One = 1
-        else if occupied_Camera_One and not occupied_Sensor_One:
+            print("Found an object one")
+        elif occupied_Camera_One and not occupied_Sensor_One:
             car_One_Time = 0
             final_Occupied_One = 0
-        else if not occupied_Camera_One and not occupied_Sensor_One:
+        elif not occupied_Camera_One and not occupied_Sensor_One:
             car_One_Time = 0
             final_Occupied_One = 0
 
-        if occupied_Camera_Two and occupied_Sensor_Two:
+        if occupied_Camera_Two or occupied_Sensor_Two:
             timeThree = time.time()
             car_Two_Time += (timeThree + 1 - timeOne)
             final_Occupied_Two = 1
-        else if occupied_Camera_Two and not occupied_Sensor_Two:
+            print("Found an object two")
+        elif occupied_Camera_Two and not occupied_Sensor_Two:
             car_Two_Time = 0
             final_Occupied_Two = 0
-        else if not occupied_Camera_Two and not occupied_Sensor_Two:
+        elif not occupied_Camera_Two and not occupied_Sensor_Two:
             car_Two_Time = 0
             final_Occupied_Two = 0
 
@@ -158,15 +154,15 @@ def main():
 
         # It is 8 PM which means that we should turn off the service so that we are not using up too much power
         # The service will come back up at 6 AM the following day
-        if time_Now.hour >= 20 and time_Now.min > 0:
-            occupied_Camera_One = 0
-            occupied_Camera_Two = 0
-            occupied_Sensor_One = 0
-            occupied_Sensor_Two = 0
-            final_Occupied_One = 0
-            final_Occupied_Two = 0
-            car_One_Time = 0
-            car_Two_Time = 0
+        # if (int)(time_Now.hour) >= 20 and (int)(time_Now.min) > 0:
+        #     occupied_Camera_One = 0
+        #     occupied_Camera_Two = 0
+        #     occupied_Sensor_One = 0
+        #     occupied_Sensor_Two = 0
+        #     final_Occupied_One = 0
+        #     final_Occupied_Two = 0
+        #     car_One_Time = 0
+        #     car_Two_Time = 0
 
             time.sleep(36000)
 
