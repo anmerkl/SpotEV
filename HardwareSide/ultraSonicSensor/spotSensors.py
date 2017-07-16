@@ -107,12 +107,12 @@ def main():
         count_One = 0
         count_Two = 0
 
-        with open('out.txt', 'r+') as outFile:
-            data = outFile.readlines()
-        for x in data:
-            if "Status:" in x:
-                occupied_Camera_One = x[8:9]
-                occupied_Camera_Two = x[10:11]
+        # with open('out.txt', 'r+') as outFile:
+        #     data = outFile.readlines()
+        # for x in data:
+        #     if "Status:" in x:
+        #         occupied_Camera_One = x[8:9]
+        #         occupied_Camera_Two = x[10:11]
 
         if occupied_Camera_One or occupied_Sensor_One:
             timeTwo - time.time()
@@ -163,8 +163,7 @@ def main():
         #     final_Occupied_Two = 0
         #     car_One_Time = 0
         #     car_Two_Time = 0
-
-            time.sleep(36000)
+        #     time.sleep(36000)
 
 
 
