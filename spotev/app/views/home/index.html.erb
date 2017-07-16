@@ -1,1 +1,9 @@
 <h1>THIS IS GOING TO BE OUR WEBSITE</h1>
+
+<% @spots.each do |spot| %>
+  <div>
+    <p> <%= spot.location %> </p>
+    <p> <%= spot.occupied %> </p>
+    <p> <%= spot.prev_occupy_duration %> </p>
+  </div>
+<% end %>
