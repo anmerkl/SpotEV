@@ -48,14 +48,14 @@ class Spot < ApplicationRecord
     report = ''
     if location.include?('10')
       report += "Free spots: #{free_bldg10_spots_count}\n"
-      bldg10_spots.each do |s|
-        report += "#{s.to_str}\n"
-      end
+      # bldg10_spots.each do |s|
+      #   report += "#{s.to_str}\n"
+      # end
     else
       report += "Free spots: #{free_bldg11_spots_count}\n"
-      bldg11_spots.each do |s|
-        report += "#{s.to_str}\n"
-      end
+      # bldg11_spots.each do |s|
+      #   report += "#{s.to_str}\n"
+      # end
     end
     report
   end
