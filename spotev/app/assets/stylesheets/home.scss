@@ -4,7 +4,7 @@
 @charset "UTF-8";
 
 body {
-  background-color: grey;
+  background-color: #f2f2f2;
 }
 
 .logo {
@@ -12,6 +12,8 @@ body {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  padding-bottom: 20px;
+  padding-top: 20px;
 }
 
 .container {
@@ -19,7 +21,7 @@ body {
   margin-left: auto;
   margin-right: auto;
   height: 400px;
-  background-color: #EDEDED;
+  background-color: #f2f2f2;
 }
 
 .directions{
@@ -27,7 +29,7 @@ body {
   padding-top: 20px;
   padding-bottom: 20px;
   font-family: 'Raleway', sans-serif;
-  color: #FFFFFF;
+  color: grey;
   font-size: 1.5em;
 }
 
