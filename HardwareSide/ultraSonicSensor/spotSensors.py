@@ -16,9 +16,9 @@ TRIG2.dir(mraa.DIR_OUT)
 ECHO2.dir(mraa.DIR_IN)
 
 # Global constants for samples and success rate
-NUM_SAMPLES = 200
+NUM_SAMPLES = 150
 SUCCESS_PERCENT = 0.60
-TIME_TO_SEND = 45
+TIME_TO_SEND = 30
 
 # Function to call for polling the ultrasonic sensors and seeing if the distance is within some bounds that we set
 # to succesfully say that a car is there!
@@ -47,7 +47,7 @@ def poll(tP, eP):
     distance = round(distance, 2)
     # print "Distance:", distance, " cm"
 
-    if (distance < 250):
+    if (distance < 200):
         return 1
     else:
         return 0
@@ -122,9 +122,11 @@ def main():
         elif occupied_Camera_One and not occupied_Sensor_One:
             car_One_Time = 0
             final_Occupied_One = 0
+            print("Could not find object one")
         elif not occupied_Camera_One and not occupied_Sensor_One:
             car_One_Time = 0
             final_Occupied_One = 0
+            print("Could not find object one")
 
         if occupied_Camera_Two or occupied_Sensor_Two:
             timeThree = time.time()
@@ -134,9 +136,11 @@ def main():
         elif occupied_Camera_Two and not occupied_Sensor_Two:
             car_Two_Time = 0
             final_Occupied_Two = 0
+            print("Could not find object two")
         elif not occupied_Camera_Two and not occupied_Sensor_Two:
             car_Two_Time = 0
             final_Occupied_Two = 0
+            print("Could not find object two")
 
         curr_Time = time.time()
         if (curr_Time - past_Time >= TIME_TO_SEND):
