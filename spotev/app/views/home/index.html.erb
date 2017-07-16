@@ -1,16 +1,16 @@
 <script src=<%= "//maps.google.com/maps/api/js?key=#{Rails.application.secrets.maps_api_key}" %>></script>
 <script src="//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"></script>
 
+<div style='width: 800px;'>
+  <div id="map" style='width: 800px; height: 400px;'></div>
+</div>
+
 <h1> WE ARE spotEV MOTHERFUCKER </h1>
 <% @spots.each do |spot| %>
   <div>
     <p> Location: <%= spot.location %> Occupied?: <%= spot.occupied %> Duration of Previous Occupation: <%= spot.prev_occupy_duration %> </p>
   </div>
 <% end %>
-
-<div style='width: 800px;'>
-  <div id="map" style='width: 800px; height: 400px;'></div>
-</div>
 
 <script>
   handler = Gmaps.build('Google');
