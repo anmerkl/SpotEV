@@ -1,3 +1,35 @@
 // Place all the styles related to the Home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@charset "UTF-8";
+
+
+body {
+  background-color: grey;
+
+}
+
+.container {
+  width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 400px;
+  background-color: #EDEDED;
+}
+
+.directions{
+  padding-left: 150px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-family: 'Raleway', sans-serif;
+  color: #FFFFFF;
+  font-size: 1.5em;
+}
+
+#map {
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+  height: auto;
+  padding-top: 20px;
+}
