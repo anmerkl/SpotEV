@@ -30,11 +30,6 @@ void setup()
     pinMode(echoPin2, INPUT);
 }
 
-void runCurl()
-{
-    system("curl -L google.com > /home/root/a.txt");
-}
-
 int poll(int tP, int eP)
 {
     int trigP = tP;
@@ -64,9 +59,6 @@ int poll(int tP, int eP)
 
 void loop()
 {
-    runCurl();
-    delay(50000);
-    /*
     for (int i = 0; i < NUM_SAMPLES; i++)
     {
         int n = poll(trigPin, echoPin);
@@ -104,7 +96,6 @@ void loop()
     countOne = 0;
     countTwo = 0;
     delay(300);
-    */
 }
 
 // JSON Object Schema:
