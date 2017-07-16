@@ -3,11 +3,13 @@
 <script src="//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"></script>
 
 <body>
-  <img src= "../../../assets/images/spotev_logo_003.png" alt="spotEV logo" id="logo" width="600px"/>
+  <div>
+    <%= image_tag(image_path('spotev_logo_003.png'), class: 'logo', alt: 'spotEV Logo', size: '400x125') %>
 
-  <div class="container">
-    <div id="map" style='width: 900px; height: 400px;'></div>
-    <p class="directions"> Click on the location to tell you how many EV spots are availible. </p>
+    <div class="container">
+      <div id="map" style='width: 900px; height: 400px;'></div>
+      <p class="directions"> Click on the location to tell you how many EV spots are availible. </p>
+    </div>
   </div>
 </body>
 

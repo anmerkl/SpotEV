@@ -3,10 +3,15 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @charset "UTF-8";
 
-
 body {
   background-color: grey;
+}
 
+.logo {
+  //padding-left: 500px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .container {
@@ -18,7 +23,7 @@ body {
 }
 
 .directions{
-  padding-left: 150px;
+  padding-left: 100px;
   padding-top: 20px;
   padding-bottom: 20px;
   font-family: 'Raleway', sans-serif;
