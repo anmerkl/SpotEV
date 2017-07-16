@@ -23,6 +23,8 @@ TIME_TO_SEND = 45
 # Function to call for polling the ultrasonic sensors and seeing if the distance is within some bounds that we set
 # to succesfully say that a car is there!
 
+TEST = 0
+
 
 def poll(tP, eP):
     tP.write(0)
