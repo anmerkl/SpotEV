@@ -15,6 +15,9 @@ const float SUCCESS_PERCENT = 0.60;
 int countOne = 0;
 int countTwo = 0;
 
+float carOneTime = 0;
+float carTwoTime = 0;
+
 void setup()
 {
     Serial.begin(9600);
@@ -39,7 +42,7 @@ int poll(int tP, int eP)
     delayMicroseconds(10);
     distance = (duration / 2) / 29.1;
     Serial.print(distance);
-    Serial.print(" cm \t\t");
+    Serial.println(" cm");
 
     if (distance < 250)
     { // check this 300 number for the max distance required to register a car
@@ -56,11 +59,41 @@ void loop()
     for (int i = 0; i < NUM_SAMPLES; i++)
     {
         int n = poll(trigPin, echoPin);
-        leftSensor[i] =
-            delay(20);
+        countOne += n;
+        delay(20);
+    }
+    if (NUM_SAMPLES * SUCCESS_PERCENT < countOne)
+    {
+        Serial.println("Object one is found!");
+        carOneTime += NUM_SAMPLES * 0.02 + 0.01;
+    }
+    else
+    {
+        Serial.println("Could not find the first object ... moving on");
+        carOneTime = 0;
     }
 
-    poll(trigPin2, echoPin2);
-    Serial.println("");
+    for (int i = 0; i < NUM_SAMPLES; i++)
+    {
+        int n = poll(trigPin2, echoPin2);
+        countTwo += n;
+        delay(20);
+    }
+    if (NUM_SAMPLES * SUCCESS_PERCENT < countTwo)
+    {
+        Serial.println("Object two is found!");
+        carTwoTime = NUM_SAMPLES * 0.02 + 0.01;
+    }
+    else
+    {
+        Serial.println("Could not find the second object ... moving on");
+        carTwoTime = 0;
+    }
+
+    countOne = 0;
+    countTwo = 0;
     delay(300);
 }
+
+// JSON Object Schema:
+// { 'spot': { 'id': 1, 'location': 'building 10', 'occupied': 'true', 'prev_occupy_duration': 134 } }
