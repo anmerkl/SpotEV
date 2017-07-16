@@ -1,0 +1,22 @@
+Detected 2:
+  block 0: sig: 1 x: 140 y: 146 width: 281 height: 106
+  block 1: sig: 1 x: 172 y: 29 width: 49 height: 27
+Detected 1:
+  block 0: sig: 1 x: 140 y: 142 width: 281 height: 113
+Detected 1:
+  block 0: sig: 1 x: 140 y: 138 width: 281 height: 122
+Detected 7:
+  block 0: sig: 1 x: 129 y: 126 width: 107 height: 93
+  block 1: sig: 1 x: 216 y: 11 width: 45 height: 23
+  block 2: sig: 1 x: 155 y: 52 width: 50 height: 20
+  block 3: sig: 1 x: 293 y: 115 width: 51 height: 37
+  block 4: sig: 1 x: 141 y: 194 width: 51 height: 9
+  block 5: sig: 1 x: 284 y: 187 width: 8 height: 8
+  block 6: sig: 1 x: 283 y: 70 width: 14 height: 6
+Detected 1:
+  block 0: sig: 1 x: 194 y: 186 width: 126 height: 25
+Detected 2:
+  block 0: sig: 1 x: 187 y: 183 width: 123 height: 31
+  block 1: sig: 1 x: 128 y: 77 width: 29 height: 39
+
+Status: Yes Car is there!
