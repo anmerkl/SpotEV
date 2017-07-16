@@ -1,3 +1,5 @@
+#include <Bridge.h>
+
 #include <Pixy.h>
 #include <PixyI2C.h>
 #include <PixySPI_SS.h>
@@ -20,11 +22,17 @@ float carTwoTime = 0;
 
 void setup()
 {
-    Serial.begin(9600);
+    Bridge.begin();
+    Serial.begin(115200);
     pinMode(trigPin, OUTPUT);
     pinMode(echoPin, INPUT);
     pinMode(trigPin2, OUTPUT);
     pinMode(echoPin2, INPUT);
+}
+
+void runCurl()
+{
+    system("curl -L google.com > /home/root/a.txt");
 }
 
 int poll(int tP, int eP)
@@ -56,6 +64,9 @@ int poll(int tP, int eP)
 
 void loop()
 {
+    runCurl();
+    delay(50000);
+    /*
     for (int i = 0; i < NUM_SAMPLES; i++)
     {
         int n = poll(trigPin, echoPin);
@@ -93,6 +104,7 @@ void loop()
     countOne = 0;
     countTwo = 0;
     delay(300);
+    */
 }
 
 // JSON Object Schema:
