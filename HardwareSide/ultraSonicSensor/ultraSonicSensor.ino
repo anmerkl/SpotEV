@@ -9,6 +9,8 @@ void setup()
   Serial.begin(9600);
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
+  pinMode(trigPin2, OUTPUT);
+  pinMode(echoPin2, INPUT);
 }
 
 void poll(int tP, int eP)
@@ -25,9 +27,8 @@ void poll(int tP, int eP)
   duration = pulseIn(echoP, HIGH);
   delayMicroseconds(10);
   distance = (duration/2) / 29.1;
-  String s = distace + " cm";
-  Serial.println(s);
-  
+  Serial.print(distance);
+  Serial.print(" cm \t\t");
 }
 
 void loop()
@@ -36,6 +37,7 @@ void loop()
   delay(20);
 
   poll(trigPin2, echoPin2);
+  Serial.println("");
   delay(300);
 }
 
