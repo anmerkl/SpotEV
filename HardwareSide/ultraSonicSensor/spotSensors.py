@@ -1,8 +1,9 @@
+# Import the required libraries
 import mraa
 import time
-
 import os
 
+# Set the GPIO pins
 TRIG = mraa.Gpio(11)
 ECHO = mraa.Gpio(10)
 TRIG2 = mraa.Gpio(6)
@@ -13,8 +14,13 @@ ECHO.dir(mraa.DIR_IN)
 TRIG2.dir(mraa.DIR_OUT)
 ECHO2.dir(mraa.DIR_IN)
 
+# Global constants for samples and success rate
 NUM_SAMPLES = 200
 SUCCESS_PERCENT = 0.60
+TIME_TO_SEND = 45
+
+# Function to call for polling the ultrasonic sensors and seeing if the distance is within some bounds that we set
+# to succesfully say that a car is there!
 
 
 def poll(tP, eP):
@@ -45,6 +51,9 @@ def poll(tP, eP):
     else:
         return 0
 
+# Main method that continuously calls the poll method from above and also handles the curl requests to post the JSON
+# object to the web server
+
 
 def main():
     currTime = time.time()
@@ -60,26 +69,29 @@ def main():
     occupiedTwo = 0
 
     while (1):
+        timeOne = time.time()
         for i in range(0, NUM_SAMPLES):
             countOne += poll(TRIG, ECHO)
             time.sleep(0.002)
+
+        for i in range(0, NUM_SAMPLES):
+            countTwo += poll(TRIG2, ECHO2)
+            time.sleep(0.002)
+
         if NUM_SAMPLES * SUCCESS_PERCENT < countOne:
             print "Object one found!"
-            carOneTime += NUM_SAMPLES * 0.002
-            carOneTime += 1.5
+            timeTwo = time.time()
+            carOneTime += (timeTwo + 2 - timeOne)
             occupiedOne = 1
         else:
             print "Object is not there"
             carOneTime = 0
             occupiedOne = 0
 
-        for i in range(0, NUM_SAMPLES):
-            countTwo += poll(TRIG2, ECHO2)
-            time.sleep(0.002)
         if NUM_SAMPLES * SUCCESS_PERCENT < countTwo:
             print "Object two found!"
-            carTwoTime += NUM_SAMPLES * 0.002
-            carTwoTime += 1.5
+            timeThree = time .time()
+            carTwoTime += (timeThree + 0.5 - timeOne)
             occupiedTwo = 1
         else:
             print "Object is not there"
@@ -90,7 +102,7 @@ def main():
         countTwo = 0
 
         currTime = time.time()
-        if (currTime - pastTime >= 30):
+        if (currTime - pastTime >= TIME_TO_SEND):
             s = 'curl -v -H \'Content-Type: application/json\' -H \'Accept: application/json\' -X POST -d \'{{ \"spot\" : {{ \"location\": \"{0}\", \"occupied\": {1}, \"prev_occupy_duration\": {2} }} }} \' http://spotev.hack.viasat.io:8080/spot'.format(
                 str(loc_1), str(occupiedOne), str(carOneTime))
             st = 'curl -v -H \'Content-Type: application/json\' -H \'Accept: application/json\' -X POST -d \'{{ \"spot\" : {{ \"location\": \"{0}\", \"occupied\": {1}, \"prev_occupy_duration\": {2} }} }} \' http://spotev.hack.viasat.io:8080/spot'.format(
@@ -99,8 +111,9 @@ def main():
             os.system(st)
             pastTime = currTime
 
-        time.sleep(1)
+        time.sleep(0.5)
 
 
+# Invoke the main method
 if __name__ == "__main__":
     main()
